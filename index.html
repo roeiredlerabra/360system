@@ -1,0 +1,3335 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamics 365 - מבט 360° על לקוחות</title>
+    
+    <!-- Modern CSS Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OverlayScrollbars/2.3.0/css/OverlayScrollbars.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-datatables/8.0.0/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-primary: #0078d4;
+            --brand-primary-hover: #106ebe;
+            --brand-primary-light: #e8f1fa;
+            --brand-secondary: #2b88d8;
+            --brand-header: #272c34;
+            --brand-accent: #50e6ff;
+            --text-primary: #323130;
+            --text-secondary: #605e5c;
+            --text-light: #a19f9d;
+            --border-light: #edebe9;
+            --success: #107c10;
+            --warning: #ffaa44;
+            --danger: #d13438;
+            --info: #0078d4;
+            --surface-background: #faf9f8;
+            --panel-background: #ffffff;
+            --nav-selected: rgba(0, 120, 212, 0.1);
+            --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-large: 0 8px 16px rgba(0, 0, 0, 0.14);
+            --transition-base: all 0.2s ease-in-out;
+            --radius-small: 3px;
+            --radius-medium: 5px;
+            --radius-large: 8px;
+        }
+        
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--surface-background);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .os-theme-dynamics .os-scrollbar-vertical {
+            width: 8px;
+        }
+        
+        .os-theme-dynamics .os-scrollbar-track {
+            background: transparent;
+        }
+        
+        .os-theme-dynamics .os-scrollbar-handle {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        .os-theme-dynamics .os-scrollbar-handle:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Header Styles */
+        .dynamics-main-header {
+            background-color: var(--brand-header);
+            color: white;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1050;
+            box-shadow: var(--shadow-small);
+        }
+        
+        .dynamics-app-header {
+            background-color: var(--brand-primary);
+            color: white;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            position: fixed;
+            width: 100%;
+            top: 48px;
+            z-index: 1040;
+        }
+        
+        .dynamics-navbar {
+            background-color: white;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 96px;
+            z-index: 1030;
+            box-shadow: var(--shadow-small);
+        }
+        
+        .dynamics-logo {
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            height: 48px;
+            padding: 0 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        
+        .app-switcher {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-base);
+        }
+        
+        .app-switcher:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        
+        .search-bar {
+            margin: 0 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-small);
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition-base);
+            width: 300px;
+        }
+        
+        .search-bar:hover, .search-bar:focus-within {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            padding: 0 5px;
+        }
+        
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+        }
+        
+        .user-menu-item {
+            height: 48px;
+            width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: var(--transition-base);
+        }
+        
+        .user-menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--danger);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .app-nav-link {
+            padding: 0 1rem;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+        
+        .app-nav-link:hover, .app-nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .app-nav-link i {
+            margin-left: 8px;
+        }
+        
+        /* Navbar Styles */
+        .dynamics-navbar .nav-link {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition-base);
+        }
+        
+        .dynamics-navbar .nav-link:hover {
+            color: var(--brand-primary);
+            background-color: rgba(0, 120, 212, 0.05);
+        }
+        
+        .dynamics-navbar .nav-link.active {
+            color: var(--brand-primary);
+            border-bottom: 2px solid var(--brand-primary);
+            font-weight: 500;
+        }
+        
+        .dynamics-navbar .nav-link i {
+            margin-left: 5px;
+        }
+        
+        /* Command Bar Styles */
+        .command-bar {
+            background-color: white;
+            border-bottom: 1px solid var(--border-light);
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 136px;
+            z-index: 1020;
+        }
+        
+        .command-group {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 1px solid var(--border-light);
+        }
+        
+        .command-group:last-child {
+            border-left: none;
+        }
+        
+        .command-button {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            margin: 0 2px;
+            border-radius: var(--radius-small);
+            color: var(--text-secondary);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition-base);
+        }
+        
+        .command-button:hover {
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+            cursor: pointer;
+        }
+        
+        .command-button i {
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        
+        .command-primary {
+            background-color: var(--brand-primary);
+            color: white;
+        }
+        
+        .command-primary:hover {
+            background-color: var(--brand-primary-hover);
+            color: white;
+        }
+        
+        .command-danger {
+            color: var(--danger);
+        }
+        
+        .command-danger:hover {
+            background-color: rgba(209, 52, 56, 0.1);
+        }
+        
+        /* Sidebar Styles */
+        .dynamics-sidebar {
+            width: 250px;
+            background-color: white;
+            height: calc(100vh - 180px);
+            position: fixed;
+            top: 180px;
+            right: 0;
+            overflow: hidden;
+            border-left: 1px solid var(--border-light);
+            z-index: 1010;
+            transition: width 0.3s ease;
+        }
+        
+        .sidebar-content {
+            width: 250px;
+            height: 100%;
+        }
+        
+        .sidebar-toggle {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+            width: 20px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            z-index: 1;
+            transition: var(--transition-base);
+        }
+        
+        .sidebar-toggle:hover {
+            color: var(--brand-primary);
+            background-color: var(--brand-primary-light);
+        }
+        
+        .sidebar-collapsed {
+            width: 48px;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-nav-item {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition-base);
+            border-right: 3px solid transparent;
+        }
+        
+        .sidebar-nav-item i {
+            margin-left: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-nav-item:hover {
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+        }
+        
+        .sidebar-nav-item.active {
+            background-color: var(--nav-selected);
+            color: var(--brand-primary);
+            font-weight: 500;
+            border-right-color: var(--brand-primary);
+        }
+        
+        .sidebar-collapsed .sidebar-nav-item {
+            padding: 12px;
+            justify-content: center;
+        }
+        
+        .sidebar-collapsed .sidebar-nav-item i {
+            margin: 0;
+        }
+        
+        .sidebar-collapsed .sidebar-nav-text {
+            display: none;
+        }
+        
+        /* Main Content Styles */
+        .dynamics-content {
+            margin-right: 250px;
+            padding: 20px;
+            margin-top: 180px;
+            transition: margin-right 0.3s ease;
+        }
+        
+        .content-full {
+            margin-right: 48px;
+        }
+        
+        /* Cards and Panels */
+        .card {
+            background-color: white;
+            border-radius: var(--radius-medium);
+            border: none;
+            box-shadow: var(--shadow-small);
+            margin-bottom: 20px;
+            transition: var(--transition-base);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .card-header {
+            background-color: transparent;
+            border-bottom: 1px solid var(--border-light);
+            padding: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-header h5, .card-header h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .dashboard-tile {
+            height: 100%;
+            transition: var(--transition-base);
+        }
+        
+        .dashboard-tile:hover {
+            transform: translateY(-3px);
+        }
+        
+        .tile-icon {
+            font-size: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+        }
+        
+        .tile-primary .tile-icon {
+            background-color: rgba(0, 120, 212, 0.1);
+            color: var(--brand-primary);
+        }
+        
+        .tile-success .tile-icon {
+            background-color: rgba(16, 124, 16, 0.1);
+            color: var(--success);
+        }
+        
+        .tile-warning .tile-icon {
+            background-color: rgba(255, 170, 68, 0.1);
+            color: var(--warning);
+        }
+        
+        .tile-info .tile-icon {
+            background-color: rgba(0, 120, 212, 0.1);
+            color: var(--info);
+        }
+        
+        .tile-danger .tile-icon {
+            background-color: rgba(209, 52, 56, 0.1);
+            color: var(--danger);
+        }
+        
+        .tile-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .tile-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            padding: 20px;
+            box-shadow: var(--shadow-small);
+        }
+        
+        .profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-color: var(--brand-primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-left: 20px;
+            color: var(--brand-primary);
+            border: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h2 {
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-info p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+        
+        .profile-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Status Indicators */
+        .status-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .status-active {
+            background-color: var(--success);
+        }
+        
+        .status-inactive {
+            background-color: var(--danger);
+        }
+        
+        .status-pending {
+            background-color: var(--warning);
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 20px;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 15px;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-base);
+            margin-bottom: -1px;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--brand-primary);
+            border-bottom: 2px solid var(--brand-primary);
+            background-color: transparent;
+            font-weight: 500;
+        }
+        
+        /* Tables */
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            background-color: rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid var(--border-light);
+            white-space: nowrap;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            border-bottom-color: var(--border-light);
+            color: var(--text-primary);
+        }
+        
+        .table tr:hover {
+            background-color: var(--brand-primary-light);
+        }
+        
+        .table-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+            margin-left: 10px;
+        }
+        
+        /* Badges */
+        .badge {
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-weight: 500;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .badge-outline-primary {
+            background-color: rgba(0, 120, 212, 0.1);
+            color: var(--brand-primary);
+            border: 1px solid rgba(0, 120, 212, 0.2);
+        }
+        
+        .badge-outline-success {
+            background-color: rgba(16, 124, 16, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 124, 16, 0.2);
+        }
+        
+        .badge-outline-warning {
+            background-color: rgba(255, 170, 68, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(255, 170, 68, 0.2);
+        }
+        
+        .badge-outline-danger {
+            background-color: rgba(209, 52, 56, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(209, 52, 56, 0.2);
+        }
+        
+        .badge-outline-info {
+            background-color: rgba(0, 120, 212, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(0, 120, 212, 0.2);
+        }
+        
+        /* Progress bars */
+        .progress {
+            height: 6px;
+            border-radius: var(--radius-small);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .progress-sm {
+            height: 4px;
+        }
+        
+        .progress-lg {
+            height: 10px;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-right: 30px;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 11px;
+            height: 100%;
+            width: 2px;
+            background-color: var(--border-light);
+        }
+        
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            right: -30px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--brand-primary);
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--brand-primary);
+        }
+        
+        .timeline-content {
+            padding: 15px;
+            border-radius: var(--radius-medium);
+            background-color: white;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-small);
+        }
+        
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timeline-title i {
+            margin-left: 8px;
+            color: var(--brand-primary);
+        }
+        
+        .timeline-date {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        .timeline-body {
+            color: var(--text-secondary);
+        }
+        
+        /* Progress Steps */
+        .step-progress {
+            display: flex;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .step-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .step-item:before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: calc(-50% + 10px);
+            width: calc(100% - 20px);
+            height: 2px;
+            background-color: #e0e0e0;
+            z-index: 0;
+        }
+        
+        .step-item:first-child:before {
+            display: none;
+        }
+        
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            z-index: 1;
+            margin-bottom: 5px;
+            transition: var(--transition-base);
+        }
+        
+        .step-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 5px;
+            transition: var(--transition-base);
+        }
+        
+        .step-item.active .step-number, .step-item.completed .step-number {
+            background-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.2);
+        }
+        
+        .step-item.active .step-label, .step-item.completed .step-label {
+            color: var(--brand-primary);
+            font-weight: 500;
+        }
+        
+        .step-item.completed .step-number {
+            background-color: var(--success);
+            box-shadow: 0 0 0 3px rgba(16, 124, 16, 0.2);
+        }
+        
+        .step-item.completed .step-label {
+            color: var(--success);
+        }
+        
+        .step-item.completed:before, .step-item.active:before {
+            background-color: var(--brand-primary);
+        }
+        
+        /* Document Items */
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        
+        .document-item {
+            background-color: white;
+            border-radius: var(--radius-medium);
+            padding: 15px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-small);
+            transition: var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .document-item:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+        
+        .document-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+        
+        .document-type {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 10px 0 0;
+        }
+        
+        .document-pdf .document-type {
+            border-color: #F40F02 transparent transparent transparent;
+        }
+        
+        .document-word .document-type {
+            border-color: #2B579A transparent transparent transparent;
+        }
+        
+        .document-excel .document-type {
+            border-color: #217346 transparent transparent transparent;
+        }
+        
+        .document-ppt .document-type {
+            border-color: #D24726 transparent transparent transparent;
+        }
+        
+        .document-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0 0 5px 0;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .document-date {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        /* Filter Pills */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: white;
+            border-radius: var(--radius-medium);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-small);
+        }
+        
+        .filter-label {
+            color: var(--text-secondary);
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+            border-radius: 20px;
+            margin-left: 10px;
+            font-size: 12px;
+            transition: var(--transition-base);
+        }
+        
+        .filter-pill i {
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        
+        .filter-pill:hover {
+            background-color: rgba(0, 120, 212, 0.2);
+        }
+        
+        .filter-action {
+            color: var(--brand-primary);
+            font-size: 13px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: var(--transition-base);
+            border-radius: var(--radius-small);
+            background-color: transparent;
+            border: none;
+        }
+        
+        .filter-action:hover {
+            background-color: var(--brand-primary-light);
+        }
+        
+        /* Buttons */
+        .btn {
+            border-radius: var(--radius-small);
+            font-weight: 500;
+            transition: var(--transition-base);
+            padding: 6px 12px;
+        }
+        
+        .btn-primary {
+            background-color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--brand-primary-hover);
+            border-color: var(--brand-primary-hover);
+        }
+        
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-circle {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-light {
+            background-color: var(--surface-background);
+            border-color: var(--border-light);
+            color: var(--text-secondary);
+        }
+        
+        .btn-light:hover {
+            background-color: var(--brand-primary-light);
+            color: var(--brand-primary);
+        }
+        
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 20px;
+        }
+        
+        /* Other Utilities */
+        .text-primary {
+            color: var(--brand-primary) !important;
+        }
+        
+        .text-success {
+            color: var(--success) !important;
+        }
+        
+        .text-warning {
+            color: var(--warning) !important;
+        }
+        
+        .text-danger {
+            color: var(--danger) !important;
+        }
+        
+        .text-info {
+            color: var(--info) !important;
+        }
+        
+        .text-light {
+            color: var(--text-light) !important;
+        }
+        
+        .bg-primary-light {
+            background-color: var(--brand-primary-light) !important;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1199px) {
+            .dynamics-sidebar {
+                width: 48px;
+            }
+            
+            .dynamics-content {
+                margin-right: 48px;
+            }
+            
+            .sidebar-nav-text {
+                display: none;
+            }
+            
+            .sidebar-nav-item {
+                padding: 12px;
+                justify-content: center;
+            }
+            
+            .sidebar-nav-item i {
+                margin: 0;
+            }
+            
+            .sidebar-toggle {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-pic {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+            
+            .profile-actions {
+                margin-top: 15px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .dynamics-sidebar {
+                position: fixed;
+                right: -250px;
+                width: 250px;
+                z-index: 1060;
+                box-shadow: var(--shadow-large);
+                transition: right 0.3s ease;
+            }
+            
+            .sidebar-open {
+                right: 0;
+            }
+            
+            .dynamics-content {
+                margin-right: 0;
+            }
+            
+            .sidebar-toggle {
+                display: flex;
+                right: 100%;
+                left: auto;
+                border-radius: var(--radius-small) 0 0 var(--radius-small);
+            }
+            
+            .command-bar {
+                overflow-x: auto;
+            }
+            
+            .command-group {
+                min-width: max-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <div class="dynamics-main-header">
+        <div class="d-flex align-items-center">
+            <div class="app-switcher">
+                <i class="fas fa-th-large"></i>
+            </div>
+            <div class="dynamics-logo">Dynamics 365</div>
+            <div class="search-bar">
+                <i class="fas fa-search" style="color: rgba(255, 255, 255, 0.6);"></i>
+                <input type="text" placeholder="חפש ב-Dynamics 365">
+            </div>
+        </div>
+        <div class="user-menu">
+            <div class="user-menu-item">
+                <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="user-menu-item">
+                <i class="fas fa-cog"></i>
+            </div>
+            <div class="user-menu-item">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">2</span>
+            </div>
+            <div class="user-menu-item">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Header -->
+    <div class="dynamics-app-header">
+        <div class="d-flex align-items-center">
+            <a href="#" class="app-nav-link active">
+                <i class="fas fa-building"></i>
+                <span>ניהול לקוחות</span>
+            </a>
+            <a href="#" class="app-nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>לוח מחוונים</span>
+            </a>
+            <a href="#" class="app-nav-link">
+                <i class="fas fa-handshake"></i>
+                <span>הזדמנויות</span>
+            </a>
+            <a href="#" class="app-nav-link">
+                <i class="fas fa-tasks"></i>
+                <span>פעילויות</span>
+            </a>
+            <a href="#" class="app-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>דוחות</span>
+            </a>
+        </div>
+        <div>
+            <span class="me-3">שלום, ישראל ישראלי</span>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="dynamics-navbar">
+        <a href="#" class="nav-link active">
+            <i class="fas fa-home"></i>
+            <span>בית</span>
+        </a>
+        <a href="#" class="nav-link">
+            <i class="fas fa-users"></i>
+            <span>לקוחות</span>
+        </a>
+        <a href="#" class="nav-link">
+            <i class="fas fa-handshake"></i>
+            <span>הזדמנויות</span>
+        </a>
+        <a href="#" class="nav-link">
+            <i class="fas fa-clipboard-list"></i>
+            <span>פעילויות</span>
+        </a>
+        <a href="#" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <span>דוחות</span>
+        </a>
+        <a href="#" class="nav-link">
+            <i class="fas fa-cog"></i>
+            <span>הגדרות</span>
+        </a>
+    </div>
+
+    <!-- Command Bar -->
+    <div class="command-bar">
+        <div class="command-group">
+            <button class="command-button command-primary">
+                <i class="fas fa-save"></i>
+                <span>שמור</span>
+            </button>
+            <button class="command-button command-danger">
+                <i class="fas fa-trash-alt"></i>
+                <span>מחק</span>
+            </button>
+        </div>
+        <div class="command-group">
+            <button class="command-button">
+                <i class="fas fa-phone-alt"></i>
+                <span>שיחה</span>
+            </button>
+            <button class="command-button">
+                <i class="fas fa-envelope"></i>
+                <span>דוא"ל</span>
+            </button>
+            <button class="command-button">
+                <i class="fas fa-calendar-alt"></i>
+                <span>פגישה</span>
+            </button>
+        </div>
+        <div class="command-group">
+            <button class="command-button">
+                <i class="fas fa-briefcase"></i>
+                <span>הזדמנות</span>
+            </button>
+            <button class="command-button">
+                <i class="fas fa-file-invoice"></i>
+                <span>הצעת מחיר</span>
+            </button>
+            <button class="command-button">
+                <i class="fas fa-file-contract"></i>
+                <span>הזמנה</span>
+            </button>
+        </div>
+        <div class="command-group">
+            <button class="command-button">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>תקלה</span>
+            </button>
+            <button class="command-button">
+                <i class="fas fa-clock"></i>
+                <span>משימה</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-label">מסננים פעילים:</div>
+        <div class="filter-pill">
+            <i class="fas fa-times-circle"></i>
+            <span>סטטוס: פעיל</span>
+        </div>
+        <div class="filter-pill">
+            <i class="fas fa-times-circle"></i>
+            <span>סיווג: זהב</span>
+        </div>
+        <div class="filter-pill">
+            <i class="fas fa-times-circle"></i>
+            <span>תאריך יצירה: השנה האחרונה</span>
+        </div>
+        <button class="filter-action">נקה הכל</button>
+        <button class="filter-action">
+            <i class="fas fa-plus"></i>
+            <span>הוסף מסנן</span>
+        </button>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="dynamics-sidebar">
+        <div class="sidebar-toggle">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="sidebar-content os-host-rtl os-theme-dynamics">
+            <div class="os-padding">
+                <div class="os-viewport">
+                    <div class="os-content">
+                        <ul class="sidebar-nav">
+                            <li>
+                                <a href="#" class="sidebar-nav-item active">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span class="sidebar-nav-text">לוח מחוונים</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-building"></i>
+                                    <span class="sidebar-nav-text">חברות</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="sidebar-nav-text">אנשי קשר</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-funnel-dollar"></i>
+                                    <span class="sidebar-nav-text">הזדמנויות מכירה</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-tasks"></i>
+                                    <span class="sidebar-nav-text">משימות</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span class="sidebar-nav-text">שיחות</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span class="sidebar-nav-text">דואר אלקטרוני</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="sidebar-nav-text">פגישות</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span class="sidebar-nav-text">פרויקטים</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-file-invoice"></i>
+                                    <span class="sidebar-nav-text">חשבוניות</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-file-contract"></i>
+                                    <span class="sidebar-nav-text">חוזים</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span class="sidebar-nav-text">תקלות</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dynamics-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">בית</a></li>
+                <li class="breadcrumb-item"><a href="#">לקוחות</a></li>
+                <li class="breadcrumb-item active" aria-current="page">חברת אלפא בע"מ</li>
+            </ol>
+        </nav>
+
+        <!-- Profile Header -->
+        <div class="profile-header animate__animated animate__fadeIn">
+            <div class="profile-pic">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="profile-info">
+                <h2>
+                    <span>חברת אלפא בע"מ</span>
+                    <span class="status-circle status-active ms-2"></span>
+                </h2>
+                <p>לקוח עסקי | ענף: טכנולוגיית מידע | לקוח מאז: 2018</p>
+            </div>
+            <div class="profile-actions">
+                <button class="btn btn-primary me-2">
+                    <i class="fas fa-phone-alt me-1"></i>
+                    <span>התקשר</span>
+                </button>
+                <button class="btn btn-outline-primary me-2">
+                    <i class="fas fa-envelope me-1"></i>
+                    <span>שלח דוא"ל</span>
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> ערוך</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-share-alt me-2"></i> שתף</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i> הדפס</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i> מחק</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Dashboard -->
+        <div class="row mb-4">
+            <div class="col-md-6 col-xl-3 mb-3">
+                <div class="card dashboard-tile tile-primary animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                    <div class="card-body">
+                        <div class="tile-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="tile-value">₪1,240,500</div>
+                        <div class="tile-label">סך הכנסות</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-3">
+                <div class="card dashboard-tile tile-success animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                    <div class="card-body">
+                        <div class="tile-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="tile-value">3 <small class="text-muted">(₪320,000)</small></div>
+                        <div class="tile-label">הזדמנויות פתוחות</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-3">
+                <div class="card dashboard-tile tile-warning animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                    <div class="card-body">
+                        <div class="tile-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="tile-value">2 <small class="text-danger">(1 דחוף)</small></div>
+                        <div class="tile-label">תקלות פתוחות</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-3">
+                <div class="card dashboard-tile tile-info animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+                    <div class="card-body">
+                        <div class="tile-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="tile-value">32 <small class="text-muted">ימים</small></div>
+                        <div class="tile-label">מועד חידוש חוזה</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">סקירה כללית</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="contacts-tab" data-bs-toggle="tab" href="#contacts" role="tab" aria-controls="contacts" aria-selected="false">אנשי קשר</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="opportunities-tab" data-bs-toggle="tab" href="#opportunities" role="tab" aria-controls="opportunities" aria-selected="false">הזדמנויות</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="cases-tab" data-bs-toggle="tab" href="#cases" role="tab" aria-controls="cases" aria-selected="false">תקלות</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="projects-tab" data-bs-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="false">פרויקטים</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="false">חשבוניות</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="documents-tab" data-bs-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">מסמכים</a>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="myTabContent">
+            <!-- Overview Tab -->
+            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h6 class="mb-0">פרטי לקוח</h6>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-bold">שם חברה</td>
+                                            <td>חברת אלפא בע"מ</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">ח.פ</td>
+                                            <td>515123456</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">כתובת</td>
+                                            <td>רחוב הברזל 35, תל אביב</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">טלפון</td>
+                                            <td>03-1234567</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">דוא"ל</td>
+                                            <td>info@alpha-ltd.co.il</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">אתר</td>
+                                            <td>www.alpha-ltd.co.il</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">סטטוס</td>
+                                            <td><span class="badge badge-outline-success">פעיל</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">סיווג</td>
+                                            <td><span class="badge badge-outline-primary">זהב</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">מוצרים ושירותים</h6>
+                                <button class="btn btn-sm btn-light">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="badge badge-outline-info">ERP</span> מערכת Dynamics NAV</td>
+                                            <td><span class="badge badge-outline-success">פעיל</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge badge-outline-info">CRM</span> Dynamics 365 Sales</td>
+                                            <td><span class="badge badge-outline-success">פעיל</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge badge-outline-info">BI</span> Power BI Premium</td>
+                                            <td><span class="badge badge-outline-success">פעיל</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge badge-outline-info">Cloud</span> Azure Services</td>
+                                            <td><span class="badge badge-outline-warning">בהטמעה</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge badge-outline-info">DevOps</span> Azure DevOps</td>
+                                            <td><span class="badge badge-outline-warning">בהטמעה</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge badge-outline-info">Office</span> Microsoft 365</td>
+                                            <td><span class="badge badge-outline-success">פעיל</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h6 class="mb-0">היסטוריית פעילויות</h6>
+                                <button class="btn btn-sm btn-light">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">
+                                                    <i class="fas fa-phone-alt"></i>
+                                                    <span>שיחת טלפון עם יעל כהן</span>
+                                                </h6>
+                                                <div class="timeline-date">22/03/2025, 14:32</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">שיחה בנושא הרחבת רישיונות Dynamics 365. הלקוח מתעניין בהוספת 5 משתמשים נוספים.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">
+                                                    <i class="fas fa-envelope"></i>
+                                                    <span>דוא"ל נשלח</span>
+                                                </h6>
+                                                <div class="timeline-date">18/03/2025, 09:15</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">נשלחה הצעת מחיר עבור פרויקט הטמעת שירותי Azure.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <span>פגישה</span>
+                                                </h6>
+                                                <div class="timeline-date">10/03/2025, 11:00</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">פגישת תכנון אסטרטגי עם מנכ"ל החברה. דיון על הרחבת השירותים ושדרוג מערכת ה-ERP.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">
+                                                    <i class="fas fa-file-invoice"></i>
+                                                    <span>חשבונית שולמה</span>
+                                                </h6>
+                                                <div class="timeline-date">05/03/2025, 16:22</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">חשבונית מספר INV-2025-0123 שולמה בסך ₪24,500.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">
+                                                    <i class="fas fa-exclamation-circle"></i>
+                                                    <span>תקלה נפתחה</span>
+                                                </h6>
+                                                <div class="timeline-date">01/03/2025, 09:45</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">תקלה #CAS-2025-0041: בעיה בהתחברות למערכת ה-NAV לאחר עדכון שרתים.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">נתונים פיננסיים ומכירות</h6>
+                                <div>
+                                    <button class="btn btn-sm btn-light">שנתי</button>
+                                    <button class="btn btn-sm btn-primary">רבעוני</button>
+                                    <button class="btn btn-sm btn-light">חודשי</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="salesChart"></canvas>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>נתוני הכנסות</h6>
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>רבעון</th>
+                                                    <th>הכנסות</th>
+                                                    <th>% שינוי</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Q1 2025</td>
+                                                    <td>₪320,500</td>
+                                                    <td class="text-success">+4.2%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Q4 2024</td>
+                                                    <td>₪307,600</td>
+                                                    <td class="text-success">+2.8%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Q3 2024</td>
+                                                    <td>₪299,200</td>
+                                                    <td class="text-success">+5.1%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Q2 2024</td>
+                                                    <td>₪284,700</td>
+                                                    <td class="text-danger">-1.2%</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>התפלגות הכנסות לפי מוצרים</h6>
+                                        <div class="chart-container" style="height: 180px">
+                                            <canvas id="productChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contacts Tab -->
+            <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">אנשי קשר</h6>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus me-1"></i>
+                            <span>הוסף איש קשר</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="contactsTable">
+                            <thead>
+                                <tr>
+                                    <th>שם</th>
+                                    <th>תפקיד</th>
+                                    <th>טלפון</th>
+                                    <th>דוא"ל</th>
+                                    <th>סטטוס</th>
+                                    <th>שיוך</th>
+                                    <th>פעולות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="table-avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <span>רן לוי</span>
+                                        </div>
+                                    </td>
+                                    <td>מנכ"ל</td>
+                                    <td>054-1234567</td>
+                                    <td>ran@alpha-ltd.co.il</td>
+                                    <td><span class="badge badge-outline-primary">מקבל החלטות</span></td>
+                                    <td>מטה</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="התקשר">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="שלח דוא״ל">
+                                            <i class="fas fa-envelope"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="table-avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <span>יעל כהן</span>
+                                        </div>
+                                    </td>
+                                    <td>מנהלת IT</td>
+                                    <td>054-7654321</td>
+                                    <td>yael@alpha-ltd.co.il</td>
+                                    <td><span class="badge badge-outline-success">משפיע</span></td>
+                                    <td>מחלקת IT</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="התקשר">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="שלח דוא״ל">
+                                            <i class="fas fa-envelope"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="table-avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <span>דני אביב</span>
+                                        </div>
+                                    </td>
+                                    <td>סמנכ"ל כספים</td>
+                                    <td>054-9876543</td>
+                                    <td>danny@alpha-ltd.co.il</td>
+                                    <td><span class="badge badge-outline-warning">משתמש</span></td>
+                                    <td>כספים</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="התקשר">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="שלח דוא״ל">
+                                            <i class="fas fa-envelope"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="table-avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <span>תמר ברק</span>
+                                        </div>
+                                    </td>
+                                    <td>מנהלת תפעול</td>
+                                    <td>054-5432198</td>
+                                    <td>tamar@alpha-ltd.co.il</td>
+                                    <td><span class="badge badge-outline-info">משפיע</span></td>
+                                    <td>תפעול</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="התקשר">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="שלח דוא״ל">
+                                            <i class="fas fa-envelope"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opportunities Tab -->
+            <div class="tab-pane fade" id="opportunities" role="tabpanel" aria-labelledby="opportunities-tab">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">שלבי מכירה - סיכום</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="step-progress mb-4">
+                            <div class="step-item completed">
+                                <div class="step-number">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <strong>6</strong>
+                                <div class="step-label">לידים</div>
+                            </div>
+                            <div class="step-item completed">
+                                <div class="step-number">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <strong>4</strong>
+                                <div class="step-label">פגישה ראשונית</div>
+                            </div>
+                            <div class="step-item active">
+                                <div class="step-number">3</div>
+                                <strong>3</strong>
+                                <div class="step-label">הצעת מחיר</div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">4</div>
+                                <strong>1</strong>
+                                <div class="step-label">משא ומתן</div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-number">5</div>
+                                <strong>0</strong>
+                                <div class="step-label">סגירה</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="pipelineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">הזדמנויות מכירה</h6>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus me-1"></i>
+                            <span>הוסף הזדמנות</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="opportunitiesTable">
+                            <thead>
+                                <tr>
+                                    <th>שם</th>
+                                    <th>סכום</th>
+                                    <th>שלב</th>
+                                    <th>סיכוי לסגירה</th>
+                                    <th>תאריך יעד</th>
+                                    <th>אחראי</th>
+                                    <th>מקור</th>
+                                    <th>פעולות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>הרחבת רישיונות Dynamics 365</td>
+                                    <td>₪120,000</td>
+                                    <td>
+                                        <div>משא ומתן</div>
+                                        <div class="progress progress-sm mt-1">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-outline-success">80%</span></td>
+                                    <td>15/04/2025</td>
+                                    <td>רונית לוי</td>
+                                    <td>פנייה יזומה</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> ערוך</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> צפה</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-clone me-2"></i> שכפל</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i> מחק</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>פרויקט מיגרציה לענן</td>
+                                    <td>₪150,000</td>
+                                    <td>
+                                        <div>הצעת מחיר</div>
+                                        <div class="progress progress-sm mt-1">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-outline-primary">50%</span></td>
+                                    <td>30/05/2025</td>
+                                    <td>אייל גולן</td>
+                                    <td>כנס Azure 2025</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> ערוך</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> צפה</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-clone me-2"></i> שכפל</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i> מחק</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>הטמעת Power BI Premium</td>
+                                    <td>₪50,000</td>
+                                    <td>
+                                        <div>הצגת דמו</div>
+                                        <div class="progress progress-sm mt-1">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-outline-warning">30%</span></td>
+                                    <td>22/06/2025</td>
+                                    <td>שירה כהן</td>
+                                    <td>המלצת לקוח</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> ערוך</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> צפה</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-clone me-2"></i> שכפל</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i> מחק</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cases Tab -->
+            <div class="tab-pane fade" id="cases" role="tabpanel" aria-labelledby="cases-tab">
+                <div class="row mb-4">
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-primary">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <div class="tile-value">42</div>
+                                <div class="tile-label">כל התקלות</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-warning">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="tile-value">2</div>
+                                <div class="tile-label">תקלות פתוחות</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-success">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="tile-value">6.2 <small class="text-muted">שעות</small></div>
+                                <div class="tile-label">זמן טיפול ממוצע</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-info">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="tile-value">97.5%</div>
+                                <div class="tile-label">SLA עמידה ב</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">תקלות ופניות שירות</h6>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus me-1"></i>
+                            <span>פתח תקלה חדשה</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="casesTable">
+                            <thead>
+                                <tr>
+                                    <th>מספר תקלה</th>
+                                    <th>נושא</th>
+                                    <th>מקור</th>
+                                    <th>דחיפות</th>
+                                    <th>סטטוס</th>
+                                    <th>תאריך פתיחה</th>
+                                    <th>זמן טיפול</th>
+                                    <th>מטפל</th>
+                                    <th>פעולות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CAS-2025-0041</td>
+                                    <td>בעיה בהתחברות למערכת NAV</td>
+                                    <td>טלפון</td>
+                                    <td><span class="badge badge-outline-danger">דחוף</span></td>
+                                    <td><span class="badge badge-outline-warning">בטיפול</span></td>
+                                    <td>01/03/2025</td>
+                                    <td>25 ש'</td>
+                                    <td>דוד כהן</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="ערוך תקלה">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="צפה בפרטים" onclick="showCaseDetails()">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CAS-2025-0034</td>
+                                    <td>בעיה בטעינת דוחות מכירות</td>
+                                    <td>טלפון</td>
+                                    <td><span class="badge badge-outline-warning">בינונית</span></td>
+                                    <td><span class="badge badge-outline-warning">בטיפול</span></td>
+                                    <td>25/02/2025</td>
+                                    <td>29 ש'</td>
+                                    <td>גל שחר</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="ערוך תקלה">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="צפה בפרטים">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CAS-2025-0038</td>
+                                    <td>תקלת אבטחה במערכת CRM</td>
+                                    <td>דוא"ל</td>
+                                    <td><span class="badge badge-outline-danger">דחוף</span></td>
+                                    <td><span class="badge badge-outline-success">סגור</span></td>
+                                    <td>22/02/2025</td>
+                                    <td>4 ש'</td>
+                                    <td>מיכל אדם</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="ערוך תקלה">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="צפה בפרטים">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Case Details Modal -->
+                <div class="modal fade" id="caseDetailsModal" tabindex="-1" aria-labelledby="caseDetailsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="caseDetailsModalLabel">פרטי תקלה - CAS-2025-0041</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-sm">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold">נושא</td>
+                                                    <td>בעיה בהתחברות למערכת NAV</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">תיאור</td>
+                                                    <td>לאחר עדכון שרתים בסוף השבוע, 5 משתמשים אינם מצליחים להתחבר למערכת ה-NAV. מקבלים שגיאת התחברות "Cannot connect to SQL Server".</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">מקור</td>
+                                                    <td>טלפון - יעל כהן (מנהלת IT)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">מערכת</td>
+                                                    <td>Dynamics NAV 2018</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">תאריך פתיחה</td>
+                                                    <td>01/03/2025, 09:45</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">SLA</td>
+                                                    <td>4 שעות (דחוף)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-sm">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="fw-bold">סטטוס</td>
+                                                    <td><span class="badge badge-outline-warning">בטיפול</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">עדיפות</td>
+                                                    <td><span class="badge badge-outline-danger">דחוף</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">מטפל</td>
+                                                    <td>דוד כהן</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">זמן טיפול</td>
+                                                    <td>25 שעות</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">סיבת התקלה</td>
+                                                    <td>שינויי תצורה בשרת SQL</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fw-bold">פתרון</td>
+                                                    <td>בתהליך - עדכון הגדרות חיבור ושחזור הרשאות משתמשים</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <h6 class="mt-4">היסטוריית עדכונים</h6>
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-comment"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">דוד כהן</h6>
+                                                <div class="timeline-date">02/03/2025, 10:35</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">אותרו בעיות בהרשאות SQL לאחר העדכון. מתבצע שחזור הרשאות ועדכון הגדרות חיבור.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-comment"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">יעל כהן (לקוח)</h6>
+                                                <div class="timeline-date">01/03/2025, 16:20</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">בדקנו ואימתנו שהבעיה קיימת רק במחלקת הכספים. מחלקות אחרות מצליחות להתחבר למערכת.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-comment"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-header">
+                                                <h6 class="timeline-title">דוד כהן</h6>
+                                                <div class="timeline-date">01/03/2025, 11:30</div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p class="mb-0">נפתחה תקלה. צוות פתרונות ERP מטפל בבעיה. נשלח התראה ראשונית ללקוח.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary">
+                                    <i class="fas fa-comment-alt me-1"></i>
+                                    <span>הוסף עדכון</span>
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-check me-1"></i>
+                                    <span>סמן כפתור</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Tab -->
+            <div class="tab-pane fade" id="projects" role="tabpanel" aria-labelledby="projects-tab">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">פרויקטים פעילים</h6>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus me-1"></i>
+                            <span>הוסף פרויקט</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="projectsTable">
+                            <thead>
+                                <tr>
+                                    <th>שם פרויקט</th>
+                                    <th>סוג</th>
+                                    <th>תקציב</th>
+                                    <th>התקדמות</th>
+                                    <th>תאריך התחלה</th>
+                                    <th>תאריך יעד</th>
+                                    <th>מנהל פרויקט</th>
+                                    <th>סטטוס</th>
+                                    <th>פעולות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>הטמעת Azure DevOps</td>
+                                    <td><span class="badge badge-outline-primary">פיתוח</span></td>
+                                    <td>₪85,000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-2">65%</div>
+                                            <div class="progress flex-grow-1" style="height: 6px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>15/01/2025</td>
+                                    <td>30/04/2025</td>
+                                    <td>יובל כהן</td>
+                                    <td><span class="badge badge-outline-success">בזמן</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="צפה בפרטים" onclick="showProjectDetails()">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="אפשרויות נוספות">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>מיגרציה לשירותי ענן Azure</td>
+                                    <td><span class="badge badge-outline-info">תשתיות</span></td>
+                                    <td>₪150,000</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-2">35%</div>
+                                            <div class="progress flex-grow-1" style="height: 6px;">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>01/02/2025</td>
+                                    <td>15/06/2025</td>
+                                    <td>רועי פרץ</td>
+                                    <td><span class="badge badge-outline-warning">פיגור קל</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="צפה בפרטים">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-icon btn-light" data-bs-toggle="tooltip" title="אפשרויות נוספות">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Project Details Modal -->
+                <div class="modal fade" id="projectDetailsModal" tabindex="-1" aria-labelledby="projectDetailsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="projectDetailsModalLabel">פרטי פרויקט - הטמעת Azure DevOps</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="mb-3">פרטי הפרויקט</h6>
+                                                <table class="table table-sm">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="fw-bold">שם פרויקט</td>
+                                                            <td>הטמעת Azure DevOps</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">תיאור</td>
+                                                            <td>הטמעת מערכת ניהול פיתוח תוכנה ופרויקטים Azure DevOps לצוותי הפיתוח של הלקוח.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">תקציב</td>
+                                                            <td>₪85,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">תקציב שנוצל</td>
+                                                            <td>₪55,250 (65%)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">תאריך התחלה</td>
+                                                            <td>15/01/2025</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">תאריך יעד</td>
+                                                            <td>30/04/2025</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="mb-3">סטטוס הפרויקט</h6>
+                                                <table class="table table-sm">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="fw-bold">התקדמות</td>
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="me-2">65%</div>
+                                                                    <div class="progress flex-grow-1" style="height: 6px;">
+                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">סטטוס</td>
+                                                            <td><span class="badge badge-outline-success">בזמן</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">מנהל פרויקט</td>
+                                                            <td>יובל כהן</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">איש קשר בחברה</td>
+                                                            <td>אייל שקד (מנהל פיתוח)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">סיכונים</td>
+                                                            <td><span class="badge badge-outline-warning">בינוני</span> התנגדות לשינוי בקרב הצוות</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold">אבני דרך הבאות</td>
+                                                            <td>הדרכת צוות פיתוח #2 (15/03/2025)</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h6 class="mb-3">שלבי הפרויקט</h6>
+                                        <div class="step-progress mb-4">
+                                            <div class="step-item completed">
+                                                <div class="step-number">
+                                                    <i class="fas fa-check"></i>
+                                                </div>
+                                                <div class="step-label">אפיון</div>
+                                            </div>
+                                            <div class="step-item completed">
+                                                <div class="step-number">
+                                                    <i class="fas fa-check"></i>
+                                                </div>
+                                                <div class="step-label">התקנה</div>
+                                            </div>
+                                            <div class="step-item completed">
+                                                <div class="step-number">
+                                                    <i class="fas fa-check"></i>
+                                                </div>
+                                                <div class="step-label">קונפיגורציה</div>
+                                            </div>
+                                            <div class="step-item active">
+                                                <div class="step-number">4</div>
+                                                <div class="step-label">הדרכה</div>
+                                            </div>
+                                            <div class="step-item">
+                                                <div class="step-number">5</div>
+                                                <div class="step-label">הטמעה</div>
+                                            </div>
+                                            <div class="step-item">
+                                                <div class="step-number">6</div>
+                                                <div class="step-label">תמיכה</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 class="mt-4 mb-3">לוח זמנים</h6>
+                                        <div class="chart-container">
+                                            <canvas id="ganttChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">משימות פתוחות</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>משימה</th>
+                                                            <th>אחראי</th>
+                                                            <th>סטטוס</th>
+                                                            <th>יעד</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>הדרכת צוות פיתוח #2</td>
+                                                            <td>ליאור שרון</td>
+                                                            <td><span class="badge badge-outline-primary">מתוכנן</span></td>
+                                                            <td>15/03/2025</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>הגדרת תהליכי עבודה מותאמים</td>
+                                                            <td>יובל כהן</td>
+                                                            <td><span class="badge badge-outline-warning">בעבודה</span></td>
+                                                            <td>22/03/2025</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>הגדרת דוחות BI לניהול פרויקטים</td>
+                                                            <td>נועה גולן</td>
+                                                            <td><span class="badge badge-outline-warning">בעבודה</span></td>
+                                                            <td>30/03/2025</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>אינטגרציה עם מערכת התקלות</td>
+                                                            <td>עמית לוי</td>
+                                                            <td><span class="badge badge-outline-info">בבדיקות</span></td>
+                                                            <td>10/03/2025</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">עדכוני פרויקט אחרונים</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="timeline">
+                                                    <div class="timeline-item">
+                                                        <div class="timeline-dot">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </div>
+                                                        <div class="timeline-content">
+                                                            <div class="timeline-header">
+                                                                <h6 class="timeline-title">יובל כהן</h6>
+                                                                <div class="timeline-date">22/02/2025</div>
+                                                            </div>
+                                                            <div class="timeline-body">
+                                                                <p class="mb-0">הושלמה הדרכת צוות פיתוח #1 בהצלחה. 8 מתוך 10 משתתפים דיווחו על שביעות רצון גבוהה.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="timeline-item">
+                                                        <div class="timeline-dot">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </div>
+                                                        <div class="timeline-content">
+                                                            <div class="timeline-header">
+                                                                <h6 class="timeline-title">עמית לוי</h6>
+                                                                <div class="timeline-date">15/02/2025</div>
+                                                            </div>
+                                                            <div class="timeline-body">
+                                                                <p class="mb-0">הושלמה הגדרת ה-Pipelines למערכות הקיימות. התחלת עבודה על אינטגרציה עם מערכת התקלות.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary">
+                                    <i class="fas fa-file-download me-1"></i>
+                                    <span>ייצא דוח</span>
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-edit me-1"></i>
+                                    <span>ערוך פרויקט</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">סגור</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoices Tab -->
+            <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+                <div class="row mb-4">
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-primary">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div class="tile-value">₪320,500</div>
+                                <div class="tile-label">סך הכנסות 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-warning">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <div class="tile-value">₪45,200</div>
+                                <div class="tile-label">חשבוניות פתוחות</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-success">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="tile-value">15 <small class="text-muted">ימים</small></div>
+                                <div class="tile-label">זמן תשלום ממוצע</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-3">
+                        <div class="card dashboard-tile tile-info">
+                            <div class="card-body">
+                                <div class="tile-icon">
+                                    <i class="fas fa-sync"></i>
+                                </div>
+                                <div class="tile-value">₪180,000</div>
+                                <div class="tile-label">חידוש מנויים קרוב</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">חשבוניות ותשלומים</h6>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus me-1"></i>
+                            <span>צור חשבונית</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="invoicesTable">
+                            <thead>
+                                <tr>
+                                    <th>מס' חשבונית</th>
+                                    <th>תאריך</th>
+                                    <th>תיאור</th>
+                                    <th>סכום</th>
+                                    <th>מע"מ</th>
+                                    <th>סה"כ</th>
+                                    <th>סטטוס</th>
+                                    <th>תאריך תשלום</th>
+                                    <th>פעולות</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>INV-2025-0156</td>
+                                    <td>15/03/2025</td>
+                                    <td>רישיונות Dynamics 365 - מרץ 2025</td>
+                                    <td>₪23,500</td>
+                                    <td>₪3,995</td>
+                                    <td>₪27,495</td>
+                                    <td><span class="badge badge-outline-warning">ממתין לתשלום</span></td>
+                                    <td>15/04/2025</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2"></i> צפה בחשבונית</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> שלח בדוא"ל</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i> הדפס</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-check me-2"></i> סמן כשולם</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV-2025-0142</td>
+                                    <td>01/03/2025</td>
+                                    <td>פרויקט Azure DevOps - תשלום #2</td>
+                                    <td>₪25,000</td>
+                                    <td>₪4,250</td>
+                                    <td>₪29,250</td>
+                                    <td><span class="badge badge-outline-warning">ממתין לתשלום</span></td>
+                                    <td>31/03/2025</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2"></i> צפה בחשבונית</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> שלח בדוא"ל</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i> הדפס</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-check me-2"></i> סמן כשולם</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV-2025-0123</td>
+                                    <td>15/02/2025</td>
+                                    <td>רישיונות Dynamics 365 - פברואר 2025</td>
+                                    <td>₪23,500</td>
+                                    <td>₪3,995</td>
+                                    <td>₪27,495</td>
+                                    <td><span class="badge badge-outline-success">שולם</span></td>
+                                    <td>05/03/2025</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-icon btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2"></i> צפה בחשבונית</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> שלח בדוא"ל</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i> הדפס</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-receipt me-2"></i> צפה בקבלה</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">מנויים ורישיונות</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="mb-0">Dynamics 365 Sales Enterprise</h6>
+                                            <span class="badge badge-outline-success">פעיל</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between text-muted small mb-2">
+                                            <span>מזהה מנוי</span>
+                                            <span>SUB-DYN-2023-0045</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>מספר רישיונות</span>
+                                            <span>25</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>מחיר חודשי</span>
+                                            <strong>₪23,500</strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span>חידוש הבא</span>
+                                            <span class="text-warning">01/07/2025 (32 ימים)</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <button class="btn btn-sm btn-primary me-2">
+                                                <i class="fas fa-sync-alt me-1"></i>
+                                                <span>חדש מנוי</span>
+                                            </button>
+                                            <button class="btn btn-sm btn-light">
+                                                <i class="fas fa-cog me-1"></i>
+                                                <span>נהל</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="mb-0">Microsoft Azure</h6>
+                                            <span class="badge badge-outline-success">פעיל</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between text-muted small mb-2">
+                                            <span>מזהה מנוי</span>
+                                            <span>SUB-AZR-2024-0021</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>סוג מנוי</span>
+                                            <span>Pay-as-you-go</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>תקציב חודשי</span>
+                                            <strong>₪12,000</strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span>צריכה חודשית ממוצעת</span>
+                                            <span>₪8,500</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <button class="btn btn-sm btn-primary me-2">
+                                                <i class="fas fa-chart-line me-1"></i>
+                                                <span>דוח שימוש</span>
+                                            </button>
+                                            <button class="btn btn-sm btn-light">
+                                                <i class="fas fa-cog me-1"></i>
+                                                <span>נהל</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="mt-3 mb-3">היסטוריית חיובים - 2025</h6>
+                        <div class="chart-container">
+                            <canvas id="billingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Tab -->
+            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6 class="mb-0">מסמכים</h6>
+                        <div>
+                            <button class="btn btn-sm btn-primary me-2">
+                                <i class="fas fa-upload me-1"></i>
+                                <span>העלה מסמך</span>
+                            </button>
+                            <button class="btn btn-sm btn-light">
+                                <i class="fas fa-folder-plus me-1"></i>
+                                <span>צור תיקייה</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills mb-4" id="documentsTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="contracts-tab" data-bs-toggle="pill" data-bs-target="#contracts" type="button" role="tab" aria-controls="contracts" aria-selected="true">הסכמים וחוזים</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="quotes-tab" data-bs-toggle="pill" data-bs-target="#quotes" type="button" role="tab" aria-controls="quotes" aria-selected="false">הצעות מחיר</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="project-docs-tab" data-bs-toggle="pill" data-bs-target="#project-docs" type="button" role="tab" aria-controls="project-docs" aria-selected="false">מסמכי פרויקטים</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="support-docs-tab" data-bs-toggle="pill" data-bs-target="#support-docs" type="button" role="tab" aria-controls="support-docs" aria-selected="false">תיעוד תמיכה</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="general-docs-tab" data-bs-toggle="pill" data-bs-target="#general-docs" type="button" role="tab" aria-controls="general-docs" aria-selected="false">כללי</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content" id="documentsTabContent">
+                            <div class="tab-pane fade show active" id="contracts" role="tabpanel" aria-labelledby="contracts-tab">
+                                <div class="document-grid">
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">הסכם רישוי Dynamics 365</div>
+                                        <div class="document-date">עודכן: 01/07/2023</div>
+                                    </div>
+                                    <div class="document-item document-word">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-word fa-2x text-primary"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">הסכם רמת שירות (SLA)</div>
+                                        <div class="document-date">עודכן: 15/01/2024</div>
+                                    </div>
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">הסכם שירותי ענן Azure</div>
+                                        <div class="document-date">עודכן: 15/01/2024</div>
+                                    </div>
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">נספח אבטחת מידע</div>
+                                        <div class="document-date">עודכן: 10/02/2024</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="quotes" role="tabpanel" aria-labelledby="quotes-tab">
+                                <div class="document-grid">
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">הצעת מחיר - פרויקט Azure DevOps</div>
+                                        <div class="document-date">עודכן: 05/01/2025</div>
+                                    </div>
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">הצעת מחיר - מיגרציה לענן</div>
+                                        <div class="document-date">עודכן: 25/01/2025</div>
+                                    </div>
+                                    <div class="document-item document-excel">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-excel fa-2x text-success"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">אופציות הרחבת רישיונות Dynamics</div>
+                                        <div class="document-date">עודכן: 10/03/2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="project-docs" role="tabpanel" aria-labelledby="project-docs-tab">
+                                <div class="document-grid">
+                                    <div class="document-item document-word">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-word fa-2x text-primary"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">אפיון - פרויקט Azure DevOps</div>
+                                        <div class="document-date">עודכן: 20/01/2025</div>
+                                    </div>
+                                    <div class="document-item document-ppt">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-powerpoint fa-2x text-warning"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">מצגת - תכנית מיגרציה לענן</div>
+                                        <div class="document-date">עודכן: 05/02/2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="support-docs" role="tabpanel" aria-labelledby="support-docs-tab">
+                                <div class="document-grid">
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">מדריך למשתמש - Dynamics 365</div>
+                                        <div class="document-date">עודכן: 15/12/2024</div>
+                                    </div>
+                                    <div class="document-item document-word">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-word fa-2x text-primary"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">תיעוד פתרון - תקלת אבטחה CRM</div>
+                                        <div class="document-date">עודכן: 28/02/2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="general-docs" role="tabpanel" aria-labelledby="general-docs-tab">
+                                <div class="document-grid">
+                                    <div class="document-item document-ppt">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-powerpoint fa-2x text-warning"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">מצגת חברה - אלפא בע"מ</div>
+                                        <div class="document-date">עודכן: 05/01/2024</div>
+                                    </div>
+                                    <div class="document-item document-pdf">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                                            <div class="document-type"></div>
+                                        </div>
+                                        <div class="document-title">תכנית אסטרטגית IT 2025</div>
+                                        <div class="document-date">עודכן: 20/12/2024</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlayScrollbars/2.3.0/browser/overlayscrollbars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-datatables/8.0.0/umd/simple-datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.7/tippy.umd.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize tooltips
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+            
+            // Initialize scrollbars
+            OverlayScrollbars(document.querySelectorAll('.os-host-rtl'), {
+                scrollbars: {
+                    autoHide: 'leave'
+                }
+            });
+            
+            // Sidebar collapse functionality
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sidebar = document.querySelector('.dynamics-sidebar');
+            const mainContent = document.querySelector('.dynamics-content');
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('sidebar-collapsed');
+                    mainContent.classList.toggle('content-full');
+                    
+                    if (sidebar.classList.contains('sidebar-collapsed')) {
+                        sidebarToggle.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    } else {
+                        sidebarToggle.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                    }
+                });
+            }
+            
+            // Mobile sidebar toggle
+            const mobileToggle = document.createElement('button');
+            mobileToggle.className = 'btn btn-sm btn-light position-fixed';
+            mobileToggle.style.top = '180px';
+            mobileToggle.style.right = '10px';
+            mobileToggle.style.zIndex = '1000';
+            mobileToggle.style.display = 'none';
+            mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            document.body.appendChild(mobileToggle);
+            
+            mobileToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('sidebar-open');
+            });
+            
+            function checkWidth() {
+                if (window.innerWidth < 768) {
+                    mobileToggle.style.display = 'block';
+                } else {
+                    mobileToggle.style.display = 'none';
+                    sidebar.classList.remove('sidebar-open');
+                }
+            }
+            
+            window.addEventListener('resize', checkWidth);
+            checkWidth();
+            
+            // Initialize DataTables
+            if (document.getElementById('contactsTable')) {
+                new simpleDatatables.DataTable('#contactsTable', {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 15, 20],
+                    labels: {
+                        placeholder: "חיפוש...",
+                        perPage: "{select} שורות לעמוד",
+                        noRows: "לא נמצאו רשומות",
+                        info: "מציג {start} עד {end} מתוך {rows} רשומות"
+                    }
+                });
+            }
+            
+            if (document.getElementById('opportunitiesTable')) {
+                new simpleDatatables.DataTable('#opportunitiesTable', {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 15, 20],
+                    labels: {
+                        placeholder: "חיפוש...",
+                        perPage: "{select} שורות לעמוד",
+                        noRows: "לא נמצאו רשומות",
+                        info: "מציג {start} עד {end} מתוך {rows} רשומות"
+                    }
+                });
+            }
+            
+            if (document.getElementById('casesTable')) {
+                new simpleDatatables.DataTable('#casesTable', {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 15, 20],
+                    labels: {
+                        placeholder: "חיפוש...",
+                        perPage: "{select} שורות לעמוד",
+                        noRows: "לא נמצאו רשומות",
+                        info: "מציג {start} עד {end} מתוך {rows} רשומות"
+                    }
+                });
+            }
+            
+            if (document.getElementById('projectsTable')) {
+                new simpleDatatables.DataTable('#projectsTable', {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 15, 20],
+                    labels: {
+                        placeholder: "חיפוש...",
+                        perPage: "{select} שורות לעמוד",
+                        noRows: "לא נמצאו רשומות",
+                        info: "מציג {start} עד {end} מתוך {rows} רשומות"
+                    }
+                });
+            }
+            
+            if (document.getElementById('invoicesTable')) {
+                new simpleDatatables.DataTable('#invoicesTable', {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 15, 20],
+                    labels: {
+                        placeholder: "חיפוש...",
+                        perPage: "{select} שורות לעמוד",
+                        noRows: "לא נמצאו רשומות",
+                        info: "מציג {start} עד {end} מתוך {rows} רשומות"
+                    }
+                });
+            }
+            
+            // Initialize Charts if exists
+            if (document.getElementById('salesChart')) {
+                const salesCtx = document.getElementById('salesChart').getContext('2d');
+                
+                new Chart(salesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025'],
+                        datasets: [
+                            {
+                                label: 'הכנסות',
+                                data: [284700, 299200, 307600, 320500],
+                                borderColor: '#0078d4',
+                                backgroundColor: 'rgba(0, 120, 212, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            {
+                                label: 'הוצאות',
+                                data: [165000, 170000, 172500, 177000],
+                                borderColor: '#77b255',
+                                backgroundColor: 'rgba(119, 178, 85, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                rtl: true
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                rtl: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('he-IL', { style: 'currency', currency: 'ILS' }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '₪' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            if (document.getElementById('productChart')) {
+                const productCtx = document.getElementById('productChart').getContext('2d');
+                
+                new Chart(productCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['רישיונות Dynamics', 'שירותי תמיכה', 'פרויקטים', 'שירותי ענן'],
+                        datasets: [{
+                            data: [55.6, 27.0, 13.2, 4.2],
+                            backgroundColor: [
+                                '#0078d4',
+                                '#77b255',
+                                '#ffaa44',
+                                '#50e6ff'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                rtl: true
+                            },
+                            tooltip: {
+                                rtl: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.parsed + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            if (document.getElementById('pipelineChart')) {
+                const pipelineCtx = document.getElementById('pipelineChart').getContext('2d');
+                
+                new Chart(pipelineCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['לידים', 'פגישה ראשונית', 'הצעת מחיר', 'משא ומתן', 'סגירה'],
+                        datasets: [{
+                            label: 'מספר הזדמנויות',
+                            data: [6, 4, 3, 1, 0],
+                            backgroundColor: [
+                                'rgba(0, 120, 212, 0.7)',
+                                'rgba(0, 120, 212, 0.7)',
+                                'rgba(0, 120, 212, 0.7)',
+                                'rgba(0, 120, 212, 0.7)',
+                                'rgba(0, 120, 212, 0.7)'
+                            ],
+                            borderWidth: 0
+                        },
+                        {
+                            label: 'סכום (₪ אלף)',
+                            data: [0, 0, 200, 120, 0],
+                            backgroundColor: [
+                                'rgba(119, 178, 85, 0.7)',
+                                'rgba(119, 178, 85, 0.7)',
+                                'rgba(119, 178, 85, 0.7)',
+                                'rgba(119, 178, 85, 0.7)',
+                                'rgba(119, 178, 85, 0.7)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                rtl: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
