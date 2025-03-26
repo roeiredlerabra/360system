@@ -3332,4 +3332,258 @@
                                 beginAtZero: true
                             }
                         }
+                    }});
+            }
+            
+            if (document.getElementById('ganttChart')) {
+                const ganttCtx = document.getElementById('ganttChart').getContext('2d');
+                
+                new Chart(ganttCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['אפיון', 'התקנה', 'קונפיגורציה', 'הדרכה', 'הטמעה', 'תמיכה'],
+                        datasets: [
+                            {
+                                label: 'הושלם',
+                                data: [100, 100, 100, 50, 0, 0],
+                                backgroundColor: '#107c10',
+                                borderWidth: 0,
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'מתוכנן',
+                                data: [0, 0, 0, 50, 100, 100],
+                                backgroundColor: '#e0e0e0',
+                                borderWidth: 0,
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                rtl: true
+                            },
+                            tooltip: {
+                                rtl: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + context.parsed.x + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                stacked: true,
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            },
+                            y: {
+                                stacked: true
+                            }
+                        }
                     }
+                });
+            }
+            
+            if (document.getElementById('billingChart')) {
+                const billingCtx = document.getElementById('billingChart').getContext('2d');
+                
+                new Chart(billingCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['ינואר', 'פברואר', 'מרץ'],
+                        datasets: [
+                            {
+                                label: 'רישיונות',
+                                data: [23500, 23500, 23500],
+                                backgroundColor: 'rgba(0, 120, 212, 0.7)',
+                                borderWidth: 0,
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'שירותים ופרויקטים',
+                                data: [45000, 55000, 25000],
+                                backgroundColor: 'rgba(119, 178, 85, 0.7)',
+                                borderWidth: 0,
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                rtl: true
+                            },
+                            tooltip: {
+                                rtl: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ₪' + context.parsed.y.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '₪' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initialize Notifications system
+            const notyf = new Notyf({
+                duration: 5000,
+                position: {
+                    x: 'left',
+                    y: 'top',
+                },
+                types: [
+                    {
+                        type: 'success',
+                        background: '#107c10',
+                        icon: {
+                            className: 'fas fa-check-circle',
+                            tagName: 'i'
+                        }
+                    },
+                    {
+                        type: 'error',
+                        background: '#d13438',
+                        icon: {
+                            className: 'fas fa-times-circle',
+                            tagName: 'i'
+                        }
+                    },
+                    {
+                        type: 'warning',
+                        background: '#ffaa44',
+                        icon: {
+                            className: 'fas fa-exclamation-circle',
+                            tagName: 'i'
+                        }
+                    },
+                    {
+                        type: 'info',
+                        background: '#0078d4',
+                        icon: {
+                            className: 'fas fa-info-circle',
+                            tagName: 'i'
+                        }
+                    }
+                ]
+            });
+            
+            // Modal dialog functions
+            window.showCaseDetails = function() {
+                const caseDetailsModal = new bootstrap.Modal(document.getElementById('caseDetailsModal'));
+                caseDetailsModal.show();
+            };
+            
+            window.showProjectDetails = function() {
+                const projectDetailsModal = new bootstrap.Modal(document.getElementById('projectDetailsModal'));
+                projectDetailsModal.show();
+            };
+            
+            // Show welcome notification
+            setTimeout(function() {
+                notyf.success('ברוך הבא למערכת Dynamics 365 CRM החדשה!');
+            }, 1000);
+            
+            // Demo notification system
+            const demoNotifications = [
+                {
+                    type: 'info',
+                    message: 'נקבעה פגישה חדשה עם יעל כהן ביום שני הקרוב'
+                },
+                {
+                    type: 'warning',
+                    message: 'נותרו 2 ימים להגשת הצעת המחיר עבור מיגרציה לענן'
+                }
+            ];
+            
+            setTimeout(function() {
+                demoNotifications.forEach((notification, index) => {
+                    setTimeout(function() {
+                        notyf[notification.type](notification.message);
+                    }, index * 2000);
+                });
+            }, 3000);
+            
+            // Document interactions
+            document.querySelectorAll('.document-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    notyf.info('המסמך נפתח בחלונית חדשה');
+                });
+            });
+            
+            // Table row highlight for better UX
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'var(--brand-primary-light)';
+                    this.style.cursor = 'pointer';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+                
+                row.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'I' && !e.target.closest('.dropdown')) {
+                        if (this.closest('#casesTable')) {
+                            showCaseDetails();
+                        } else if (this.closest('#projectsTable')) {
+                            showProjectDetails();
+                        }
+                    }
+                });
+            });
+            
+            // Command bar actions
+            document.querySelectorAll('.command-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.querySelector('span').textContent;
+                    notyf.info(`פעולה: ${action}`);
+                });
+            });
+            
+            // Filter actions
+            document.querySelectorAll('.filter-pill i').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const pillElement = this.parentElement;
+                    pillElement.style.opacity = '0';
+                    setTimeout(() => {
+                        pillElement.style.display = 'none';
+                    }, 300);
+                    notyf.success('המסנן הוסר בהצלחה');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
